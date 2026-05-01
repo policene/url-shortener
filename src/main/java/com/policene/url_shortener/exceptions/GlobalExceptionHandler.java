@@ -42,4 +42,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ExpiredLinkException.class)
+    public ResponseEntity<Void> handleExpiredLinkException (ExpiredLinkException exception) {
+        return new ResponseEntity<>(HttpStatus.GONE);
+    }
+
 }
