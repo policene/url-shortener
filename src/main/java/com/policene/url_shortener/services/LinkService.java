@@ -1,17 +1,16 @@
 package com.policene.url_shortener.services;
 
-import com.policene.url_shortener.dtos.UrlShortenerRequest;
-import com.policene.url_shortener.dtos.UrlShortenerResponse;
+import com.policene.url_shortener.dtos.LinkStatsResponseDTO;
+import com.policene.url_shortener.dtos.UrlShortenerRequestDTO;
+import com.policene.url_shortener.dtos.UrlShortenerResponseDTO;
+import com.policene.url_shortener.mappers.LinkMapper;
 import com.policene.url_shortener.models.Link;
 import com.policene.url_shortener.repositories.LinkRepository;
 import com.policene.url_shortener.utils.SlugGenerator;
-import org.hibernate.query.common.TemporalUnit;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAmount;
+import java.util.NoSuchElementException;
 
 @Service
 public class LinkService {
@@ -25,7 +24,7 @@ public class LinkService {
         this.linkRepository = linkRepository;
     }
 
-    public UrlShortenerResponse shorten (UrlShortenerRequest request) {
+    public UrlShortenerResponseDTO shorten (UrlShortenerRequestDTO request) {
 
         Link link = Link
                 .builder()
@@ -35,7 +34,16 @@ public class LinkService {
 
         linkRepository.save(link);
 
-        return new UrlShortenerResponse(baseUrl + "/" + link.getSlug());
+        return new UrlShortenerResponseDTO(baseUrl + "/" + link.getSlug());
+
+    }
+
+    public LinkStatsResponseDTO getStats (String slug) {
+
+        Link foundLink = linkRepository.findBySlug(slug)
+                .orElseThrow(() -> new NoSuchElementException("Stats not found for this link."));
+
+        return LinkMapper.toStatsDTO(foundLink);
 
     }
 

@@ -1,6 +1,6 @@
 package com.policene.url_shortener.dtos;
 
-public record UrlShortenerResponse(
+public record UrlShortenerResponseDTO(
         String shortenedUrl
 ) {
 }

@@ -2,7 +2,7 @@ package com.policene.url_shortener.dtos;
 
 import javax.validation.constraints.NotBlank;
 
-public record UrlShortenerRequest(
+public record UrlShortenerRequestDTO(
         @NotBlank
         String url
 ) {
