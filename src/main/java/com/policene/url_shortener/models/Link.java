@@ -1,15 +1,14 @@
 package com.policene.url_shortener.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Table(name = "links")
+@Builder
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 public class Link {
@@ -21,29 +20,23 @@ public class Link {
     @Column(nullable = false, unique = true)
     private String slug;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "target_url")
     private String targetUrl;
 
-    @Column(nullable = false, updatable = false)
+    @Column(name = "click_count")
+    private Integer clickCount;
+
+    @Column(nullable = false, updatable = false, name = "created_at")
     private Instant createdAt;
 
-    @Column(nullable = false)
-    private Instant updatedAt;
-
-    @Column(nullable = false)
-    private Long clickCount;
+    @Column(nullable = false, name = "expires_at")
+    private Instant expiresAt;
 
     @PrePersist
     private void prePersist () {
-        Instant now = Instant.now();
-        this.createdAt = now;
-        this.updatedAt = now;
+        this.clickCount = 0;
+        this.createdAt = Instant.now();
+        this.expiresAt = this.createdAt.plus(7, ChronoUnit.DAYS);
     }
-
-    @PreUpdate
-    private void preUpdate () {
-        this.updatedAt = Instant.now();
-    }
-
 
 }

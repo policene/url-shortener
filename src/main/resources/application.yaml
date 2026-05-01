@@ -23,3 +23,6 @@ spring:
       host: localhost
       port: 6379
 
+app:
+  base-url: ${APP_BASE_URL:http://localhost:8080}
+
