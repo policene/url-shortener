@@ -4,6 +4,7 @@ import com.policene.url_shortener.dtos.LinkStatsResponseDTO;
 import com.policene.url_shortener.dtos.UrlShortenerRequestDTO;
 import com.policene.url_shortener.dtos.UrlShortenerResponseDTO;
 import com.policene.url_shortener.services.LinkService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class LinkController {
     }
 
     @PostMapping("/shorten")
-    public ResponseEntity<UrlShortenerResponseDTO> shorten (@RequestBody UrlShortenerRequestDTO request) {
+    public ResponseEntity<UrlShortenerResponseDTO> shorten (@Valid @RequestBody UrlShortenerRequestDTO request) {
         return new ResponseEntity<>(linkService.shorten(request), HttpStatus.CREATED);
     }
 

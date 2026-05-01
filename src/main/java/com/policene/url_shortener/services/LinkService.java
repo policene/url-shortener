@@ -24,6 +24,15 @@ public class LinkService {
         this.linkRepository = linkRepository;
     }
 
+    public Link findBySlug (String slug) {
+        return linkRepository.findBySlug(slug)
+                .orElseThrow(() -> new NoSuchElementException("Link not found for the slug: " + slug));
+    }
+
+    public void incrementClickCount (String slug) {
+        linkRepository.incrementClickCount(slug);
+    }
+
     public UrlShortenerResponseDTO shorten (UrlShortenerRequestDTO request) {
 
         Link link = Link
@@ -39,21 +48,13 @@ public class LinkService {
     }
 
     public LinkStatsResponseDTO getLinkStats (String slug) {
-
-        Link foundLink = linkRepository.findBySlug(slug)
-                .orElseThrow(() -> new NoSuchElementException("Stats not found for this slug."));
-
+        Link foundLink = findBySlug(slug);
         return LinkMapper.toStatsDTO(foundLink);
-
     }
 
     public void deleteLink (String slug) {
-
-        Link foundLink = linkRepository.findBySlug(slug)
-                .orElseThrow(() -> new NoSuchElementException("Link not found for this slug."));
-
+        Link foundLink = findBySlug(slug);
         linkRepository.delete(foundLink);
-
     }
 
 }

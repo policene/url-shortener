@@ -1,9 +1,11 @@
 package com.policene.url_shortener.dtos;
 
-import javax.validation.constraints.NotBlank;
+
+import jakarta.validation.constraints.NotBlank;
 
 public record UrlShortenerRequestDTO(
-        @NotBlank
+        @NotBlank(message = "URL can't be blank.")
         String url
 ) {
 }
+    
