@@ -24,8 +24,14 @@ public class LinkController {
     }
 
     @GetMapping("/stats/{slug}")
-    public ResponseEntity<LinkStatsResponseDTO> getStats (@PathVariable(name = "slug") String slug) {
-        return ResponseEntity.ok(linkService.getStats(slug));
+    public ResponseEntity<LinkStatsResponseDTO> getLinkStats (@PathVariable String slug) {
+        return ResponseEntity.ok(linkService.getLinkStats(slug));
+    }
+
+    @DeleteMapping("/links/{slug}")
+    public ResponseEntity<Void> deleteLink (@PathVariable String slug) {
+        linkService.deleteLink(slug);
+        return ResponseEntity.noContent().build();
     }
 
 }
