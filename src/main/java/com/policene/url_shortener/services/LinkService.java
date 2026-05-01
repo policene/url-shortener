@@ -38,12 +38,21 @@ public class LinkService {
 
     }
 
-    public LinkStatsResponseDTO getStats (String slug) {
+    public LinkStatsResponseDTO getLinkStats (String slug) {
 
         Link foundLink = linkRepository.findBySlug(slug)
-                .orElseThrow(() -> new NoSuchElementException("Stats not found for this link."));
+                .orElseThrow(() -> new NoSuchElementException("Stats not found for this slug."));
 
         return LinkMapper.toStatsDTO(foundLink);
+
+    }
+
+    public void deleteLink (String slug) {
+
+        Link foundLink = linkRepository.findBySlug(slug)
+                .orElseThrow(() -> new NoSuchElementException("Link not found for this slug."));
+
+        linkRepository.delete(foundLink);
 
     }
 
