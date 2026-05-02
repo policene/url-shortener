@@ -20,5 +20,5 @@ spring:
 
 app:
   base-url: ${APP_BASE_URL:http://localhost:8080}
-  front-end-url: ${FRONTEND_URL:http://localhost:3000}
+  front-end-url: ${FRONTEND_URL:http://localhost:5173}
 
